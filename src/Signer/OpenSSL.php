@@ -1,6 +1,7 @@
 <?php
 namespace Lcobucci\JWT\Signer;
 
+use OpenSSLAsymmetricKey;
 use InvalidArgumentException;
 use function is_resource;
 use function openssl_error_string;
@@ -81,7 +82,7 @@ abstract class OpenSSL extends BaseSigner
      */
     private function validateKey($key)
     {
-        if (! is_resource($key)) {
+        if (! is_resource($key) && !$key instanceof OpenSSLAsymmetricKey) {
             throw InvalidKeyProvided::cannotBeParsed(openssl_error_string());
         }
 
